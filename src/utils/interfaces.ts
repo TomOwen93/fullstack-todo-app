@@ -3,5 +3,5 @@ export interface ToDoType {
   creationDate: string;
   completed: boolean;
   title: string;
-  id: number;
+  id?: number;
 }
