@@ -5,11 +5,13 @@ import moment from "moment";
 interface ListProps {
   listData: ToDoType[];
   handleCompleted: (element: ToDoType) => void;
+  handleChangeDelete: (element: ToDoType) => void;
 }
 
 export default function List({
   listData,
   handleCompleted,
+  handleChangeDelete,
 }: ListProps): JSX.Element {
   const handleChangeCompleted = (element: ToDoType) => {
     handleCompleted(element);
@@ -26,6 +28,7 @@ export default function List({
             <th>Due Date</th>
             <th>Creation Date</th>
             <th>Done?</th>
+            <th>Delete?</th>
           </tr>
 
           {listData.map((element) => (
@@ -52,6 +55,11 @@ export default function List({
                     </select>
                   )}
                 </>
+              </td>
+              <td>
+                <button onClick={() => handleChangeDelete(element)}>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}

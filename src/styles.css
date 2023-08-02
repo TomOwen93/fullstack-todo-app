@@ -12,6 +12,10 @@ h1 {
   text-align: center;
 }
 
+.header h3 {
+  text-align: center;
+}
+
 .filter {
   text-align: center;
   align-self: center;
