@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
+
+body {
+  background-color: #121212;
+  font-family: "Josefin Sans", cursive;
+  display: flex;
+  flex-direction: column;
+
+}
+
+h1{
+    text-align: center;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px
+}
+
+.in-progress-section{
+    grid-column: 1/2;
+    grid-row: 1/3 ;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-self: center;
+    align-items: center;
+
+}
+
+.done-section{
+    grid-column: 2/3;
+    grid-row: 1/3 ;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-self: center;
+    align-items: center;
+
+}
+
+.to-do-sections{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
