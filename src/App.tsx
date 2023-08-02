@@ -8,15 +8,7 @@ import moment from "moment";
 import List from "./List";
 
 function App(): JSX.Element {
-  const [renderedToDos, setRenderedToDos] = useState<ToDoType[]>([
-    {
-      id: 1,
-      title: "Do the Dishes",
-      completed: false,
-      creationDate: "15-04-2023",
-      dueDate: "05/08/2023",
-    },
-  ]);
+  const [renderedToDos, setRenderedToDos] = useState<ToDoType[]>([]);
 
   const [animationParent] = useAutoAnimate();
 
@@ -33,8 +25,8 @@ function App(): JSX.Element {
 
   //FETCH from either render.com or my localhost:port -- AXIOS
   const fetchToDos = async () => {
+    console.log("fetched!");
     const response = await axios.get(`${baseUrl}/to-dos`);
-    // console.log(response.data);
     setRenderedToDos(response.data);
   };
 
@@ -107,12 +99,21 @@ function App(): JSX.Element {
     }
   };
 
+  const handleChangeDelete = async (element: ToDoType) => {
+    console.log(element.id);
+    axios.delete(`${baseUrl}/to-dos/${element.id}`);
+
+    console.log("test");
+    fetchToDos();
+  };
+
   return (
     <>
-      <div className="header"></div>
-      <h1>To-do List</h1>
-      <hr></hr>
-
+      <div className="header">
+        <h1>To-do List</h1>
+        <hr></hr>
+        <h3>Filter To-dos:</h3>
+      </div>
       <div className="filter">
         <select onChange={(event) => handleOverdueFilter(event.target.value)}>
           <option value={"All"}>All</option>
@@ -123,12 +124,20 @@ function App(): JSX.Element {
       <div className="to-do-sections">
         <div className="in-progress-section" ref={animationParent}>
           <h2>In Progress:</h2>
-          <List listData={inProgressList} handleCompleted={handleCompleted} />
+          <List
+            listData={inProgressList}
+            handleCompleted={handleCompleted}
+            handleChangeDelete={handleChangeDelete}
+          />
         </div>
 
         <div className="done-section" ref={animationParent}>
           <h2>Done:</h2>
-          <List listData={doneList} handleCompleted={handleCompleted} />
+          <List
+            listData={doneList}
+            handleCompleted={handleCompleted}
+            handleChangeDelete={handleChangeDelete}
+          />
         </div>
       </div>
       <hr />
