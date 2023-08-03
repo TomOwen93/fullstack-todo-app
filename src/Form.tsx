@@ -1,9 +1,9 @@
-import { ToDoType } from "./utils/interfaces";
+import { ToDoTypeNoId } from "./utils/interfaces";
 
 interface FormProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  toSubmit: ToDoType;
+  toSubmit: ToDoTypeNoId;
 }
 
 export default function Form({

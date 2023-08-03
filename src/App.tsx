@@ -1,4 +1,4 @@
-import { ToDoType } from "./utils/interfaces";
+import { ToDoType, ToDoTypeNoId } from "./utils/interfaces";
 import Form from "./Form";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import "./styles.css";
@@ -6,23 +6,19 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import List from "./List";
+import { baseUrl } from "./utils/api";
 
 function App(): JSX.Element {
   const [renderedToDos, setRenderedToDos] = useState<ToDoType[]>([]);
-
-  const [animationParent] = useAutoAnimate();
-
-  const [toSubmit, setToSubmit] = useState<ToDoType>({
+  const [toSubmit, setToSubmit] = useState<ToDoTypeNoId>({
     title: "",
     creationDate: new Date().toDateString(),
     completed: false,
     dueDate: "",
   });
+  const [animationParent] = useAutoAnimate();
 
-  const baseUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:4000"
-      : "https://tom-todo-app-y14l.onrender.com";
+  console.log(renderedToDos);
 
   const fetchToDos = async () => {
     console.log("fetched!");
@@ -101,9 +97,33 @@ function App(): JSX.Element {
   const handleChangeDelete = async (element: ToDoType) => {
     console.log(element.id);
     axios.delete(`${baseUrl}/to-dos/${element.id}`);
-
     console.log("test");
     fetchToDos();
+  };
+
+  const replaceTitleSpecificToDo = (
+    prev: ToDoType[],
+    id: number,
+    value: string
+  ): ToDoType[] => {
+    const replacementToDosArray = prev.map((todo) =>
+      todo.id === id ? { ...todo, title: value } : todo
+    );
+
+    return replacementToDosArray;
+  };
+
+  const handleChangeExisting = async (
+    key: string,
+    value: string,
+    element: ToDoType
+  ) => {
+    setRenderedToDos((prev) =>
+      replaceTitleSpecificToDo(prev, element.id, value)
+    );
+
+    // await axios.patch(`${baseUrl}/to-dos/${element.id}`, { [key]: value });
+    // fetchToDos();
   };
 
   return (
@@ -113,7 +133,7 @@ function App(): JSX.Element {
         <hr></hr>
         <h3>Filter To-dos:</h3>
       </div>
-      <div className="filter">
+      <div className="filter" ref={animationParent}>
         <select onChange={(event) => handleOverdueFilter(event.target.value)}>
           <option value={"All"}>All</option>
           <option value={"Overdue"}>Overdue</option>
@@ -121,21 +141,23 @@ function App(): JSX.Element {
       </div>
 
       <div className="to-do-sections">
-        <div className="in-progress-section" ref={animationParent}>
+        <div className="in-progress-section">
           <h2>In Progress:</h2>
           <List
             listData={inProgressList}
             handleCompleted={handleCompleted}
             handleChangeDelete={handleChangeDelete}
+            handleChangeExisting={handleChangeExisting}
           />
         </div>
 
-        <div className="done-section" ref={animationParent}>
+        <div className="done-section">
           <h2>Done:</h2>
           <List
             listData={doneList}
             handleCompleted={handleCompleted}
             handleChangeDelete={handleChangeDelete}
+            handleChangeExisting={handleChangeExisting}
           />
         </div>
       </div>
