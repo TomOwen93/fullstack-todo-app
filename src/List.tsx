@@ -23,6 +23,7 @@ export default function List({
   };
 
   const [isEditing, setIsEditing] = useState(false);
+  const [animationParent] = useAutoAnimate();
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -43,8 +44,6 @@ export default function List({
     // setEditedKeyValue({[key]:value})
   };
 
-  const [animationParent] = useAutoAnimate();
-
   return (
     <>
       <div className="list-table">
@@ -59,9 +58,9 @@ export default function List({
             </tr>
           </thead>
 
-          <tbody>
+          <tbody ref={animationParent}>
             {listData.map((element, index) => (
-              <tr key={element.id} ref={animationParent}>
+              <tr key={element.id}>
                 <td>
                   {isEditing ? (
                     <input

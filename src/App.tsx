@@ -133,7 +133,7 @@ function App(): JSX.Element {
         <hr></hr>
         <h3>Filter To-dos:</h3>
       </div>
-      <div className="filter">
+      <div className="filter" ref={animationParent}>
         <select onChange={(event) => handleOverdueFilter(event.target.value)}>
           <option value={"All"}>All</option>
           <option value={"Overdue"}>Overdue</option>
@@ -141,7 +141,7 @@ function App(): JSX.Element {
       </div>
 
       <div className="to-do-sections">
-        <div className="in-progress-section" ref={animationParent}>
+        <div className="in-progress-section">
           <h2>In Progress:</h2>
           <List
             listData={inProgressList}
@@ -151,7 +151,7 @@ function App(): JSX.Element {
           />
         </div>
 
-        <div className="done-section" ref={animationParent}>
+        <div className="done-section">
           <h2>Done:</h2>
           <List
             listData={doneList}
