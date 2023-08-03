@@ -18,19 +18,18 @@ function App(): JSX.Element {
     completed: false,
     dueDate: "",
   });
+
   const baseUrl =
     process.env.NODE_ENV === "development"
       ? "http://localhost:4000"
       : "https://tom-todo-app-y14l.onrender.com";
 
-  //FETCH from either render.com or my localhost:port -- AXIOS
   const fetchToDos = async () => {
     console.log("fetched!");
     const response = await axios.get(`${baseUrl}/to-dos`);
     setRenderedToDos(response.data);
   };
 
-  //FETCH ON LOAD
   useEffect(() => {
     fetchToDos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
