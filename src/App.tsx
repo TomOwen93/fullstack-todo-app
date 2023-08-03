@@ -1,4 +1,4 @@
-import { ToDoType } from "./utils/interfaces";
+import { ToDoType, ToDoTypeNoId } from "./utils/interfaces";
 import Form from "./Form";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import "./styles.css";
@@ -9,15 +9,13 @@ import List from "./List";
 
 function App(): JSX.Element {
   const [renderedToDos, setRenderedToDos] = useState<ToDoType[]>([]);
-
-  const [animationParent] = useAutoAnimate();
-
-  const [toSubmit, setToSubmit] = useState<ToDoType>({
+  const [toSubmit, setToSubmit] = useState<ToDoTypeNoId>({
     title: "",
     creationDate: new Date().toDateString(),
     completed: false,
     dueDate: "",
   });
+  const [animationParent] = useAutoAnimate();
 
   const baseUrl =
     process.env.NODE_ENV === "development"
@@ -101,9 +99,31 @@ function App(): JSX.Element {
   const handleChangeDelete = async (element: ToDoType) => {
     console.log(element.id);
     axios.delete(`${baseUrl}/to-dos/${element.id}`);
-
     console.log("test");
     fetchToDos();
+  };
+
+  const replaceTitleSpecificToDo = (
+    prev: ToDoType[],
+    id: number,
+    value: string
+  ): ToDoType[] => {
+    prev.find((todo) => todo.id === id);
+
+    return [];
+  };
+
+  const handleChangeExisting = async (
+    key: string,
+    value: string,
+    element: ToDoType
+  ) => {
+    setRenderedToDos((prev) =>
+      replaceTitleSpecificToDo(prev, element.id, value)
+    );
+
+    // await axios.patch(`${baseUrl}/to-dos/${element.id}`, { [key]: value });
+    // fetchToDos();
   };
 
   return (
@@ -127,6 +147,7 @@ function App(): JSX.Element {
             listData={inProgressList}
             handleCompleted={handleCompleted}
             handleChangeDelete={handleChangeDelete}
+            handleChangeExisting={handleChangeExisting}
           />
         </div>
 
@@ -136,6 +157,7 @@ function App(): JSX.Element {
             listData={doneList}
             handleCompleted={handleCompleted}
             handleChangeDelete={handleChangeDelete}
+            handleChangeExisting={handleChangeExisting}
           />
         </div>
       </div>

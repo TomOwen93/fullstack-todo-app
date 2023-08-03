@@ -72,6 +72,21 @@ table th {
   padding: 0.5rem;
   border: 0.2rem solid Tomato;
 }
+
+.list-table input {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+  color: white;
+}
+
+.list-table input:focus {
+  background: rgba(0, 0, 0, 25);
+  border: none;
+  outline: none;
+  color: white;
+}
+
 .done-section {
   grid-column: 2/3;
   grid-row: 1/3;
