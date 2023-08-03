@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import List from "./List";
+import { baseUrl } from "./utils/api";
 
 function App(): JSX.Element {
   const [renderedToDos, setRenderedToDos] = useState<ToDoType[]>([]);
@@ -17,10 +18,7 @@ function App(): JSX.Element {
   });
   const [animationParent] = useAutoAnimate();
 
-  const baseUrl =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:4000"
-      : "https://tom-todo-app-y14l.onrender.com";
+  console.log(renderedToDos);
 
   const fetchToDos = async () => {
     console.log("fetched!");
@@ -108,9 +106,11 @@ function App(): JSX.Element {
     id: number,
     value: string
   ): ToDoType[] => {
-    prev.find((todo) => todo.id === id);
+    const replacementToDosArray = prev.map((todo) =>
+      todo.id === id ? { ...todo, title: value } : todo
+    );
 
-    return [];
+    return replacementToDosArray;
   };
 
   const handleChangeExisting = async (
