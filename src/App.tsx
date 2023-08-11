@@ -19,11 +19,9 @@ function App(): JSX.Element {
   const [animationParent] = useAutoAnimate();
 
   const fetchToDos = async () => {
-    console.log("fetched!");
+    console.log("Fetched!");
     const { data } = await axios.get(`${baseUrl}/to-dos`);
-    console.log(data.data);
     setRenderedToDos(data.data);
-    console.log(renderedToDos);
   };
 
   useEffect(() => {
@@ -33,7 +31,6 @@ function App(): JSX.Element {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event);
     await axios.post(`${baseUrl}/to-dos`, toSubmit);
     fetchToDos();
   };
@@ -45,7 +42,6 @@ function App(): JSX.Element {
   };
 
   const handleCompleted = async (element: ToDoType) => {
-    console.log(element.completed);
     if (element.completed === true) {
       await axios.patch(`${baseUrl}/to-dos/${element.id}`, {
         completed: false,
@@ -56,7 +52,6 @@ function App(): JSX.Element {
       });
     }
 
-    console.log(toSubmit);
     fetchToDos();
   };
 
@@ -84,20 +79,11 @@ function App(): JSX.Element {
           (todo) => moment(todo.duedate).format("YYYY-MM-DD") < todayDate
         )
       );
-      console.log(
-        renderedToDos.map((todo) => moment(todo.duedate).format("YYYY-MM-DD")),
-        todayDate,
-        renderedToDos.map(
-          (todo) => moment(todo.duedate).format("YYYY-MM-DD") < todayDate
-        )
-      );
     }
   };
 
   const handleChangeDelete = async (element: ToDoType) => {
-    console.log(element.id);
     axios.delete(`${baseUrl}/to-dos/${element.id}`);
-    console.log("test");
     fetchToDos();
   };
 
@@ -125,8 +111,6 @@ function App(): JSX.Element {
     // await axios.patch(`${baseUrl}/to-dos/${element.id}`, { [key]: value });
     // fetchToDos();
   };
-
-  console.log(inProgressList);
 
   return (
     <>
