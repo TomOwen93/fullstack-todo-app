@@ -3,8 +3,8 @@ export interface ToDoType extends ToDoTypeNoId {
 }
 
 export interface ToDoTypeNoId {
-  dueDate: string;
-  creationDate: string;
+  duedate: string;
+  creationdate: string;
   completed: boolean;
   title: string;
 }

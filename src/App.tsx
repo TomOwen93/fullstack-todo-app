@@ -12,18 +12,18 @@ function App(): JSX.Element {
   const [renderedToDos, setRenderedToDos] = useState<ToDoType[]>([]);
   const [toSubmit, setToSubmit] = useState<ToDoTypeNoId>({
     title: "",
-    creationDate: new Date().toDateString(),
+    creationdate: new Date().toDateString(),
     completed: false,
-    dueDate: "",
+    duedate: "",
   });
   const [animationParent] = useAutoAnimate();
 
-  console.log(renderedToDos);
-
   const fetchToDos = async () => {
     console.log("fetched!");
-    const response = await axios.get(`${baseUrl}/to-dos`);
-    setRenderedToDos(response.data);
+    const { data } = await axios.get(`${baseUrl}/to-dos`);
+    console.log(data.data);
+    setRenderedToDos(data.data);
+    console.log(renderedToDos);
   };
 
   useEffect(() => {
@@ -64,13 +64,13 @@ function App(): JSX.Element {
     .filter((todo) => todo.completed === false)
     .sort(
       (todo1, todo2) =>
-        parseInt(todo1.creationDate) - parseInt(todo2.creationDate)
+        parseInt(todo1.creationdate) - parseInt(todo2.creationdate)
     );
   const doneList = renderedToDos
     .filter((todo) => todo.completed === true)
     .sort(
       (todo1, todo2) =>
-        parseInt(todo1.creationDate) - parseInt(todo2.creationDate)
+        parseInt(todo1.creationdate) - parseInt(todo2.creationdate)
     );
 
   const todayDate = moment(new Date()).format("YYYY-MM-DD");
@@ -81,14 +81,14 @@ function App(): JSX.Element {
     } else {
       setRenderedToDos((prev) =>
         prev.filter(
-          (todo) => moment(todo.dueDate).format("YYYY-MM-DD") < todayDate
+          (todo) => moment(todo.duedate).format("YYYY-MM-DD") < todayDate
         )
       );
       console.log(
-        renderedToDos.map((todo) => moment(todo.dueDate).format("YYYY-MM-DD")),
+        renderedToDos.map((todo) => moment(todo.duedate).format("YYYY-MM-DD")),
         todayDate,
         renderedToDos.map(
-          (todo) => moment(todo.dueDate).format("YYYY-MM-DD") < todayDate
+          (todo) => moment(todo.duedate).format("YYYY-MM-DD") < todayDate
         )
       );
     }
@@ -125,6 +125,8 @@ function App(): JSX.Element {
     // await axios.patch(`${baseUrl}/to-dos/${element.id}`, { [key]: value });
     // fetchToDos();
   };
+
+  console.log(inProgressList);
 
   return (
     <>
@@ -176,11 +178,3 @@ function App(): JSX.Element {
 }
 
 export default App;
-
-/*Possible features
-    Adding and editing todos
-    Marking todos as 'complete'
-    Deleting todos
-    Sorting todos by creation date
-    Setting a due date
-    Filtering overdue todos*/

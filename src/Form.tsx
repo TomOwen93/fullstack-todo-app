@@ -24,13 +24,13 @@ export default function Form({
         <label>Due Date:</label>
 
         <input
-          name="dueDate"
+          name="duedate"
           type="date"
           placeholder="dd-mm-yyyy"
           min={"2023-01-01"}
           max="2030-12-31"
           onChange={handleChange}
-          value={toSubmit.dueDate || ""}
+          value={toSubmit.duedate || ""}
         ></input>
 
         <button>Submit</button>

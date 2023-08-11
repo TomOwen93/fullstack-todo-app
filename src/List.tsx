@@ -76,10 +76,10 @@ export default function List({
                   )}
                 </td>
                 <td>
-                  {moment(new Date(element.dueDate)).format("DD/MM/YYYY")}
+                  {moment(new Date(element.duedate)).format("DD/MM/YYYY")}
                 </td>
                 <td>
-                  {moment(new Date(element.creationDate)).format("DD/MM/YYYY")}
+                  {moment(new Date(element.creationdate)).format("DD/MM/YYYY")}
                 </td>
                 <td>
                   <>
